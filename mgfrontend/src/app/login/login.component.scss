@@ -1,0 +1,240 @@
+
+:host ::ng-deep { 
+
+  .p-dialog .p-dialog-content:last-of-type{
+    border-bottom-left-radius: "0px" !important;
+    border-bottom-left-radius: "0px";
+  }
+
+}
+
+.social-links{
+  color: white !important;
+}
+
+.twit-img
+{
+  width: auto;
+  height: 16px;
+}
+.privacy-policy{
+  color: white !important;
+  cursor:pointer;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+  }
+
+  .col-left,
+  .col-right {
+    width: 100%;
+  }
+}
+
+.login,
+.image {
+  min-height: 480px;
+}
+
+.rounded-pill
+{
+  width:315px;
+  // height: 55px;
+}
+
+.rounded-pill2
+{
+  border-radius: 30px;
+  width: 200px;
+}
+
+.bg-image {
+  background-image: url('https://res.cloudinary.com/mhmd/image/upload/v1555917661/art-colorful-contemporary-2047905_dxtao7.jpg');
+  background-size: cover;
+  background-position: center center;
+  min-height: 830px;
+}
+.display-title
+{
+  font-family: 'Source-Sans-Pro-bold';
+}
+.text-muted
+{
+  font-family: 'Source-Sans-Pro-regular';
+  font-size: 20px;
+}
+.custom-control-label
+{
+  margin-left: 5px;
+}
+
+
+
+#containerBody2 {
+  position: relative;
+  width: 101%;
+  min-height: 590px; /* Set your desired height */
+  background-image: url('/assets/img/morguard_landing.png');
+  background-size: cover;
+  // background-size: contain;
+  background-position: center;  
+
+}
+
+.color-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background-color: #515151; /* Set your desired color and opacity */
+  // opacity: 70%;
+}
+
+.pt-175px {
+  padding-top: 175px;
+}
+
+.login-title {
+  color: white;
+  font-family: Faktum Test;
+  font-size: 75px;
+  font-weight: 700;
+  line-height: 63px;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+.login-title2 {
+  color: white;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.login-title3 {
+  color: white;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+
+.login-4k {
+  // color: white;
+  font-family: Faktum Test;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.img-logo {
+  width: 300px;
+  height: 75px;
+}
+
+.image-container {
+  position: relative;
+}
+
+.overlay-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Use different z-index values to control the stacking order */
+}
+
+.overlay-image2 {
+  position: absolute;
+  top: 0;
+  left: 45px;
+  z-index: 2; /* Use different z-index values to control the stacking order */
+}
+
+.overlay-image3 {
+  position: absolute;
+  top: 0;
+  left: 90px;
+  z-index: 3; /* Use different z-index values to control the stacking order */
+}
+
+.enter-linkedin-account {
+  font-family: 'Quicksand', sans-serif;  
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 63px;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+::ng-deep  .p-dialog .p-dialog-header  {
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+
+::ng-deep  .p-dialog .p-dialog-footer  {
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+::ng-deep .p-dialog .p-dialog-content:last-of-type {
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+::ng-deep .p-card {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border-radius: 0;
+}
+::ng-deep .p-card-header
+{
+  text-align: center;
+  position: relative;
+}
+
+::ng-deep .p-card-subtitle
+{
+  text-align: center;
+  color:#00467F;
+}
+
+::ng-deep .p-inputtext
+{
+  padding: 0.45rem 0.75rem;
+}
+
+::ng-deep .p-card-content
+{
+  padding-left:25px;
+}
+
+::ng-deep .p-card-footer
+{
+  padding-left: 25px
+}
+ ::ng-deep.p-password,.p-password-input
+{
+  width: 335px;
+}
+::ng-deep .p-password-input
+{
+  width: 335px;
+}
+
+@media screen and (max-width: 768px) {
+  .responsive-dialog {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+

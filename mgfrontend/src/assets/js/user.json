@@ -1,0 +1,32 @@
+{
+    "users": [
+      {
+        "id": "1",
+        "firstName": "Tom",
+        "lastName": "Cruise",
+        "uname":"tom",
+        "pwd":"tom123",
+        "address":"St Claires",
+        "contactno":"0772341234"
+      },
+      {
+        "id": "2",
+        "firstName": "Maria",
+        "lastName": "Sharapova",
+        "uname":"maria",
+        "pwd":"maria123",
+        "address":"Beach Road",
+        "contactno":"07723412777"
+
+      },
+      {
+        "id": "3",
+        "firstName": "James",
+        "lastName": "Bond",
+        "uname":"james",
+        "pwd":"maria123",
+        "address":"St Marys Road",
+        "contactno":"07723477777"
+      }
+    ]
+}

@@ -1,0 +1,219 @@
+.xcv-nav
+{
+  height: 85px;
+  border-bottom: gainsboro 1px solid;
+
+  .nav-item
+  {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+footer {
+  color: #777;
+  height: 45px;
+  padding: 10px 0 0;
+  border-top: 1px solid gainsboro;
+}
+
+.social-icons
+{
+  text-align:left
+}
+
+.social-icons a
+{
+  width:44px;
+  height:44px;
+  line-height:44px;
+    margin: 0 auto 0 auto;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+  background-color:#33353d;
+}
+.social-links{
+  color: black !important;
+}  
+
+.twit-img
+{
+  width: auto;
+  height: 16px;
+}
+
+
+@media (max-width:991px)
+{
+  .footer5 [class^=col-]
+  {
+    margin-bottom:30px
+  }
+}
+@media (max-width:767px)
+{
+  .footer5
+  {
+    padding-bottom:0
+  }
+  .footer5 #footerRights,
+  .footer5 .social-icons
+  {
+    text-align:center
+  }
+}
+
+.social-icons
+{
+  padding-left:0;
+  margin-bottom:0;
+  list-style:none
+}
+.social-icons li
+{
+  display:inline-block;
+  margin-bottom:12px
+}
+
+.social-icons a {
+  width: 44px;
+  height: 44px;
+  background-color:#eceeef;
+  color:#818a91;
+  text-align: center;
+  line-height: 44px;
+  font-size: 24px;
+  display: inline-block;
+  border-radius: 50%;
+	-webkit-transition:all .2s linear;
+	-o-transition:all .2s linear;
+	transition:all .2s linear
+}
+
+.social-icons a:active,.social-icons a:focus,.social-icons a:hover
+{
+  color:#fff;
+  background-color:#29aafe
+}
+
+.social-icons a.facebook:hover
+{background-color:#3b5998}
+.social-icons a.twitter:hover
+{background-color:#00aced}
+.social-icons a.instagram:hover
+{background-color:#f00077}
+
+.float-right {
+  float: right; 
+}
+
+.rights-reserved {
+
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+
+  text-align: right;
+  color: #333333;
+}
+
+.footer {
+  border-top: 2px solid #ECECEC;
+}
+
+.subs_status {
+  font-size: 12px;
+}
+.sub-header-text {
+  font-size: 13px;
+}
+
+.active_color {
+  color: green;
+}
+
+::ng-deep p-menubarsub {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+::ng-deep a.p-menubar-button {
+  order: 3;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+// Define variables for breakpoints
+$breakpoint-xs: 0; // Extra small devices (portrait phones)
+$breakpoint-sm: 576px; // Small devices (landscape phones)
+$breakpoint-md: 768px; // Medium devices (tablets)
+$breakpoint-lg: 992px; // Large devices (desktops)
+$breakpoint-xl: 1200px; // Extra large devices (large desktops)
+
+// Example mixin for media queries
+@mixin respond-to($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+
+.home-text {
+
+    padding-left: 100px;
+    padding-right: 45px;
+  
+
+  @media (max-width: 1200px) {
+    padding-left: 100px;
+    padding-right: 35px;
+  }
+}
+.payment-plans-text {
+
+    padding-left: 55px;
+    padding-right: 45px;
+
+  @media (max-width: 1200px) {
+    padding-left: 40px;
+    padding-right: 30px;
+  }
+}
+.support-text {
+
+  
+
+  
+    padding-left: 55px;
+    padding-right: 55px;
+  
+
+  @media (max-width: 1200px) {
+    padding-left: 40px;
+    padding-right: 10px;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  z-index: 999; /* make sure it overlays other content */
+}
+#containerBody2 {
+  position: relative;
+  width: 101%;
+  min-height: 590px; /* Set your desired height */
+  background-image: url('/assets/img/morguard_landing.png');
+  background-size: cover;
+  // background-size: contain;
+  background-position: center;  
+
+}

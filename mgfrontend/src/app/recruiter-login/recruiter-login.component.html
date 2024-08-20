@@ -1,0 +1,298 @@
+<!-- start header -->
+<div class="row align-items-center mt-3">
+  <ng-container *ngIf="!isSmallScreen">
+      <div class="col-6">
+        <div class="row pl-3 justify-content-center">
+          <div class="col-12">
+            <span (click)="clientLogin()" class="custom-link">
+              <img src="assets/img/morguard_logo.png" alt="xcv-logo">
+            </span>
+          </div>
+        </div>
+      </div>
+    <div class="col-6">
+      <div class="row pr-3 text-end justify-content-center">
+        <div class="col-12">
+          <button (click)="register()" class="btn btn-primary btn-block rounded-pill2 recruiter-login-btn">Register</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isSmallScreen">
+      <div class="col">
+
+        <div class="row pl justify-content-center">
+          <div class="col-auto">
+            <span (click)="clientLogin()" class="custom-link">
+              <img src="assets/img/morguard_logo.png" alt="xcv-logo">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row pr text-end justify-content-center">
+          <div class="col-auto">
+            <button (click)="register()" class="btn btn-primary btn-block rounded-pill2 recruiter-login-btn">Register</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+</div>
+<!-- end header -->
+
+<!-- start middle -->
+<div class="row mt-4 align-items-center">
+<!-- start forgot password -->
+<ng-container *ngIf="forgotPasswordMode">
+  <!-- <div class="{{isSmallScreen ? 'col-12' : 'col-6'}}"> -->
+  <div class="{{isSmallScreen ? 'col-12' : 'col-6 offset-3'}}">
+    <div class="row pl pr">
+      <div class="col-12">
+        <div class="row">
+          <div class="{{isSmallScreen ? 'col-12' : 'col-8 offset-2'}}">
+            <div class="row">
+              <div class="col text-center">
+                <span class="login-header">
+                  Forgot password
+                </span>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col text-center">
+                <span class="login-header2">
+                  Please Enter your email
+                </span>
+              </div>
+            </div>
+            <div class="row mt-username">
+              <div class="col">
+                <form [formGroup]="forgotForm" (ngSubmit)="onSubmit()">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="username" class="login-labels">Email:</label>
+                        </div>
+                        <input class="form-control curved" type="text" id="email" formControlName="email">
+                        <div class="text-danger mt-2" *ngIf="submitted && (
+                        (forgotForm.controls['email'].errors && forgotForm.controls['email'].errors['required'])
+                        )">
+                          Email is required
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="submitted && (
+                        (forgotForm.controls['email'].errors && forgotForm.controls['email'].errors['invalidEmail'])
+                        )">
+                          Email format is invalid
+                        </div>
+        
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="row mt-5">
+                    <div class="col-4">
+        
+                      <button (click)="back()" class="btn btn-secondary form-control rounded-pill" type="button">
+                        Back
+                      </button>
+        
+                    </div>
+        
+                    <div class="col-4">
+                      <button [disabled]="processing" class="btn btn-primary form-control rounded-pill" type="submit">
+                        {{forgotPasswordMode ? 'Send' : 'Sign In'}}
+                        <div *ngIf="processing" class="spinner-border spinner-border-sm" role="status">
+                        </div>
+                      </button>
+                    </div>
+        
+                    <div class="col-4">
+                    </div>
+                  </div>
+        
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+<!-- end forgot password -->
+
+<!-- start NOT forgot password -->
+<ng-container *ngIf="!forgotPasswordMode">
+<div class="col-3">
+</div>
+  <div class="{{isSmallScreen ? 'col-12' : 'col-6'}}">
+
+    <!-- start main form left side -->
+    <div class="row pl pr">
+      <div class="col-12 mb-5">
+
+        <div class="row">
+          <div class="{{isSmallScreen ? 'col-12' : 'col-8 offset-2'}}">
+
+            <!-- start recruiter image -->
+            <div class="row">
+              <div class="col text-center">
+                <img src="assets/img/recruiter-logo-ctn-sml.png" alt="company-logo">
+              </div>
+            </div>
+            <!-- end recruiter image -->
+
+            <div class="row">
+              <div class="col text-center">
+                <span class="login-header">
+                  {{forgotPasswordMode ? 'Forgot password' : 'User Login'}}
+                </span>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col text-center">
+                <span class="login-header2">
+                  {{forgotPasswordMode ? 'Please Enter your email' : 'Let machine improve you a resume.'}}
+                </span>
+              </div>
+            </div>
+
+            <div *ngIf="!forgotPasswordMode" class="row mt-username">
+              <div class="col">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="username" class="login-labels">Email:</label>
+                        </div>
+                        <input class="form-control curved" type="text" id="username" formControlName="username">
+                        <div class="text-danger mt-2" *ngIf="submitted && (
+                        (loginForm.controls['username'].errors && loginForm.controls['username'].errors['required'])
+                        )">
+                          Email is required
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="submitted && (
+                        (loginForm.controls['username'].errors && loginForm.controls['username'].errors['invalidEmail'])
+                        )">
+                          Email format is invalid
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-3">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="password" class="login-labels">Password:</label>
+                        </div>
+                        <!-- <input class="form-control curved" type="password" id="password" formControlName="password"> -->
+                        <p-password id="password" [feedback]="false" [toggleMask]="true" [style]="{'width':'100%'}" formControlName="password"></p-password>
+                        <div class="text-danger mt-2" *ngIf="submitted && (loginForm.controls['password'].invalid || 
+                        (loginForm.controls['password'].errors && loginForm.controls['password'].errors['required'])
+                        )">
+                          Password is required
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-2">
+                    <div class="col">
+                      <div class="form-group">
+
+                        <p-checkbox [binary]="true"  formControlName="rememberMe"  inputId="rememberMe"></p-checkbox>                          
+
+                        <label for="rememberMe">
+                          <span class="remember-me ml">
+                            Remember Me:
+                          </span>  
+                        </label>
+
+                      </div>                        
+                    </div>
+
+                    <div class="col text-end">
+                      <span (click)="toggleForgotPasswordMode()" class="custom-link forgot-password">
+                        Forgot Password
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  <div class="row mt-sign-in">
+                    <div class="col-12 text-center">
+                      <button [disabled]="processing" class="btn btn-primary btn-block rounded-pill2 recruiter-login-btn" type="submit">Sign In
+                        <div *ngIf="processing" class="spinner-border spinner-border-sm" role="status">
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+    <!-- end main form left side -->
+
+  </div>
+  <div class="col-3">
+  </div>
+
+</ng-container>
+<!-- end NOT forgot password -->
+
+
+</div>
+<!-- end middle -->
+
+<!-- start footer -->
+<!-- <ng-container>
+<div class="row footer mt-3 pt-3 pb-3 header-border">
+  <div class="col ml">
+
+    <p class="contact">
+      <a class="social-links" href="https://www.facebook.com/profile.php?id=61558094197171" target="_blank">
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+      </a>
+      <a class="social-links ml-1" href="https://twitter.com/xCV_ai3" target="_blank">
+      
+        <img src="assets/img/twitter.png" class="twit-img" alt="">
+      </a>
+      <a class="social-links" href="https://www.linkedin.com/company/xcv-ai/" target="_blank">
+        <i class="fa fa-linkedin ml-1" aria-hidden="true"></i>
+      </a>
+      <a class="social-links" href="https://www.instagram.com/xcvai3/" target="_blank">
+        <i class="fa fa-instagram ml-1" aria-hidden="true"></i>
+      </a>
+      <a class="social-links" href="https://youtube.com/@xCVai?si=gkjVhNjyxrAsXFA8" target="_blank">
+        <i class="fa fa-youtube-play ml-1" aria-hidden="true"></i>
+      </a>
+    </p>
+
+  </div>
+  <div class="col text-end mr">
+    <span class="rights-reserved">
+      &copy;2023 All rights reserved
+    </span>
+  </div>
+
+</div>
+</ng-container> -->
+<!-- end footer -->

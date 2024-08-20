@@ -1,0 +1,108 @@
+<!-- <div class="row" *ngIf="isLoading">
+  <div class="col-md-12 text-center">
+    <i class="fa fa-circle-o-notch fa-spin" style="font-size:38px"></i>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-md-1">
+
+  </div>
+  <div class="col-md-10" style="background-color: #F7F7F7;min-height: 600px;">
+    <div class="row mt-4 ml-1 mr-2 mb-5">
+      <!-- start left -->
+      <div class="col-md-7 pr-2">
+        <ng-container *ngIf="isLoadingData">
+          <div class="row" >
+            <div class="col-md-12 text-center">
+              <i class="fa fa-circle-o-notch fa-spin" style="font-size:38px"></i>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!isLoadingData">
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Report Type:</span></div>
+          <div class="col-md-9 col-grey">{{fileData?.ReportType}}</div>
+    
+        </div>
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Report Title:</span></div>
+          <div class="col-md-9 col-grey">{{fileData?.ReportTitle}}</div>
+        </div>
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Date Created:</span></div>
+          <div class="col-md-9 col-grey">{{fileData?.DateCreated}}</div>
+        </div>
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Next assessment Date:</span></div>
+          <div class="col-md-9 col-grey">{{fileData?.Nextassessmentdate}}</div>
+        </div>
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Company:</span></div>
+          <div class="col-md-9 col-grey">{{fileData?.Company}}</div>
+        </div>
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Author:</span></div>
+          <div class="col-md-9 col-grey">{{fileData?.Author}}</div>
+        </div>
+        <div class="row mb-2 row-details">
+          <div class="col-md-3"><span class="label-txt">Summary:</span></div>
+          <div class="col-md-9 col-grey" style="height: 205px;overflow-y: scroll;">{{fileData?.Summary}} </div>
+        </div>
+      </ng-container>
+      </div>
+      <!-- end left -->
+    
+      <!-- start right -->
+      <div class="col-md-5 right-side-color">
+            <div class="row mb-5">
+          
+              <div class="col-md-12" style="background-color: #14477E;
+              min-height: 100px;
+              border-radius: 6px;">
+                <!-- <p-dropdown
+                  [options]="fileDataList"
+                  [(ngModel)]="selectedFiles"
+                  optionLabel="name"
+                  placeholder="Select a File" 
+                  
+                /> -->
+              <p-dropdown 
+              [options]="mappedList" 
+              [(ngModel)]="selectedFiles" 
+              placeholder="Select a File" 
+              [group]="true" (onChange)="onFileChange($event)">
+                  <ng-template let-group pTemplate="group">
+                      <div class="flex align-items-center" >
+                          <span>{{ group.label }}</span>
+                      </div>
+                  </ng-template>
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex align-items-center">
+                        <span pTooltip="{{ item.label }}" tooltipPosition="right">{{ item.label }}</span>
+                    </div>
+                </ng-template>
+          </p-dropdown>
+                <button [disabled]="isLoadingData" class="btn btn-primary btn-block mt-3 mb-3" (click)="getFileDetails()" style="background: #01D8B7;width: 100px;">Process
+                           
+                              </button>
+                <!-- <p-multiSelect 
+        [options]="fileList" 
+        [(ngModel)]="selectedFiles" 
+        optionLabel="name" 
+        placeholder="Select a File" /> -->
+              </div>
+            </div>
+         
+      </div>
+      <!-- end right -->
+    </div>
+  </div>
+  <div class="col-md-1">
+
+  </div>
+
+</div>
+
+  
+  <!-- start contacts dialog -->
+  

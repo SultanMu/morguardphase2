@@ -1,0 +1,52 @@
+version: '3'
+services:
+  frontend-service-phase-2:
+    restart: on-failure
+    build: 
+      context: mgfrontend/
+    container_name: "mguardfrontend-service-phase-2"
+    hostname: mguard-phase-2
+    ports:
+      - 4512:4201
+    networks:
+      - mguard_internal_net-phase-2
+  backend-service-phase-2:
+    restart: on-failure
+    build: 
+      context: morguard/
+    container_name: "mguardbackend-service-phase-2"
+    hostname: mguard-phase-2
+    ports:
+      - 9990:8000
+    env_file:
+      - ./morguard/.env
+    depends_on:
+        - mguard-db-service-phase-2
+    networks:
+      - mguard_internal_net-phase-2
+    # entrypoint: ["sh", "-c", "python3 db_await.py && python3 manage.py makemigrations && python3 manage.py migrate && gunicorn morguard.asgi:application"]
+  mguard-db-service-phase-2:
+    image: ankane/pgvector:v0.5.1
+    environment:
+      - POSTGRES_PASSWORD=password123!
+      - POSTGRES_USER=postgres
+    container_name: "mguard-db-service-phase-2"
+    hostname: mguard-phase-2
+    networks:
+      - mguard_internal_net-phase-2
+    volumes:
+      - mguard-db-data2-phase2:/var/lib/postgresql/data
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  mguard-file-processor:
+    build: 
+      context: process_pdf/
+    container_name: "mguard-file-processor"
+    hostname: mguard-phase-2
+    depends_on:
+      - backend-service-phase-2
+    networks:
+      - mguard_internal_net-phase-2
+networks:
+  mguard_internal_net-phase-2:
+volumes:
+  mguard-db-data2-phase2:

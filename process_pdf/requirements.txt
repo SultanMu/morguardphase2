@@ -1,0 +1,3 @@
+fastapi[standard]
+uvicorn[standard]
+pdfplumber==0.11.0

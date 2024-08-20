@@ -1,0 +1,171 @@
+<div id="containerBody2">
+  <div class="color-layer">
+
+    <div class="row align-items-center">
+
+      <ng-container *ngIf="isSmallScreen">
+        <div class="col">
+
+          <div class="row pl justify-content-center">
+            <div class="col-auto">
+         
+                <img src="assets/img/morguard_logo.png" alt="morguard-logo" style="height:150px">
+         
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="row pr text-end justify-content-center">
+            <div class="col-auto">
+              <button (click)="register()" class="btn btn-primary btn-block rounded-pill2 recruiter-login-btn">Register
+              </button>
+              <!-- <button (click)="recruiterLogin()" class="btn btn-primary btn-block rounded-pill2 recruiter-login-btn">HR / Recruiter Login</button> -->
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!isSmallScreen">
+       <div class="col-md-3">
+       </div>
+
+        <div class="col-md-6 d-flex justify-content-center"> 
+          <p-card header="" subheader="Welcome" [style]="{ width: '475px' }">
+            <ng-template pTemplate="header">
+              <div style="background-color: #97C5E8;
+              text-align: left;
+              width: 135px;
+              padding: 8px;
+              position: absolute;
+              left: -36px;
+              opacity: 0.8;cursor: pointer;"><i class="fa fa-chevron-left" style="font-size:18px;margin-right: 20px;color: #00467F;"></i>
+          <i class="fa fa-home" style="font-size:20px;margin-right: 5px;color: #00467F;"></i><span style="font-size: 12px;color: #00467F;">Home</span>
+        </div>
+          
+                <img alt="Card" style="width: 215px;height: auto;" src="assets/img/morguard_logo.png" />
+            </ng-template>
+            <form [formGroup]="loginForm" >
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <div>
+                      <label for="username" class="login-labels">Email:</label>
+                    </div>
+                    <input pInputText class="form-control" type="text" id="username" formControlName="username" [style]="{'width':'82%'}" >
+                    
+                    <div class="text-danger mt-2" *ngIf="submitted && (
+                    (loginForm.controls['username'].errors && loginForm.controls['username'].errors['required'])
+                    )">
+                      Email is required
+                    </div>
+                    <div class="text-danger mt-2" *ngIf="submitted && (
+                    (loginForm.controls['username'].errors && loginForm.controls['username'].errors['invalidEmail'])
+                    )">
+                      Email format is invalid
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col">
+                  <div class="form-group">
+                    <div>
+                      <label for="password" class="login-labels">Password:</label>
+                    </div>
+                    <!-- <input class="form-control curved" type="password" id="password" formControlName="password"> -->
+                    <p-password id="password" [feedback]="false" [toggleMask]="true" formControlName="password"></p-password>
+                    <div class="text-danger mt-2" *ngIf="submitted && (loginForm.controls['password'].invalid || 
+                    (loginForm.controls['password'].errors && loginForm.controls['password'].errors['required'])
+                    )">
+                      Password is required
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+<!-- 
+              <div class="row mt-2">
+                <div class="col">
+                  <div class="form-group">
+
+                    <p-checkbox [binary]="true"  formControlName="rememberMe"  inputId="rememberMe"></p-checkbox>                          
+
+                    <label for="rememberMe">
+                      <span class="remember-me ml">
+                        Remember Me:
+                      </span>  
+                    </label>
+
+                  </div>                        
+                </div>
+
+                <div class="col text-end">
+                  <span (click)="toggleForgotPasswordMode()" class="custom-link forgot-password">
+                    Forgot Password
+                  </span>
+
+                </div> 
+
+              </div> -->
+
+
+
+            </form>
+            <ng-template pTemplate="footer">
+              <div class="row mt-sign-in">
+                <div class="col-12">
+                  <button [disabled]="processing" class="btn btn-primary btn-block recruiter-login-btn" (click)="onSubmit()" style="border-radius: 0;
+    width: 83%;">Sign In
+                    <div *ngIf="processing" class="spinner-border spinner-border-sm" role="status">
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <p (click)="register()" style="
+                  font-size: 14px;
+                  color: #14477E;cursor: pointer;"><u>Register?</u></p>
+                </div>
+              </div>
+            </ng-template>
+       
+        </p-card>
+        </div>
+
+
+        <div class="col-md-3">
+        </div>
+      </ng-container>
+
+    </div>
+    <div class="row mt-5 pt-175px">
+
+      <div class="col-md-3">
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="row mt-3 justify-content-center align-items-center">
+
+          <!-- <div class="col-auto">
+          <button (click)="recruiterLogin()" class="btn btn-primary btn-block rounded-pill shadow-sm p-2">Member
+              Login</button>
+          </div> -->
+        </div>
+
+      </div>
+
+      <div class="col-md-3">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+

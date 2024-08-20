@@ -1,0 +1,244 @@
+
+
+<!-- start middle -->
+<div class="row align-items-center">
+  <div *ngIf="!isSmallScreen" class="col-md-2">
+   
+  </div>
+  <div class="{{ isSmallScreen ? 'col-12' : 'col-8' }}">
+    <div class="row pl pr pt-5 pb-5" style="background-color: #ffffff;">
+     
+
+            <div class="col-6">
+              <div class="row pl-3 justify-content-center">
+                <div class="col-12">
+                  <span (click)="clientLogin()" class="custom-link">
+                    <img src="assets/img/morguard_logo.png" alt="xcv-logo" />
+                  </span>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-6">
+              <div class="row pr-3 text-end justify-content-center">
+                <div class="col-12">
+                  <button
+                    (click)="recruiterLogin()"
+                    class="btn btn-primary btn-block recruiter-login-btn"
+                  >
+                   Login
+                  </button>
+                </div>
+              </div>
+         
+      </div>
+    </div>
+    <!-- start main form left side -->
+    <div class="row pl pr" style="background-color: #ffffff;">
+      <div class="col-12">
+        <div class="row">
+          <div class="{{ isSmallScreen ? 'col-12' : 'col-6 offset-3' }}">
+            <div class="row">
+              <div class="col">
+                <span class="login-header"> User Register </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <span class="field-req">
+                  <span class="field-req-ask">*</span> Fields Required
+                </span>
+              </div>
+            </div>
+            <div class="row mt-4 mb-5">
+              <div class="col">
+                <form [formGroup]="registerCompanyForm" (ngSubmit)="onSubmit()">
+                  <!-- start company name -->
+                  <div class="row mt-2">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="companyName" class="login-labels"
+                            >Name: <span class="field-req-ask">*</span></label
+                          >
+                        </div>
+                        <input
+                          placeholder="John Doe"
+                          class="mt form-control"
+                          type="text"
+                          id="companyName"
+                          formControlName="companyName"
+                        />
+                        <div
+                          class="text-danger mt-2"
+                          *ngIf="
+                            submitted &&
+                            (registerCompanyForm.controls['companyName']
+                              .invalid ||
+                              (registerCompanyForm.controls['companyName']
+                                .errors &&
+                                registerCompanyForm.controls['companyName']
+                                  .errors['required']))
+                          "
+                        >
+                          Name is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end company name -->
+
+                  <!-- start company email -->
+                  <div class="row mt-3">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="companyEmail" class="login-labels"
+                            >Email: <span class="field-req-ask">*</span></label
+                          >
+                        </div>
+                        <input
+                          placeholder="name@email.com"
+                          class="mt form-control"
+                          type="text"
+                          id="companyEmail"
+                          formControlName="companyEmail"
+                        />
+                        <div
+                          class="text-danger mt-2"
+                          *ngIf="
+                            submitted &&
+                            registerCompanyForm.controls['companyEmail']
+                              .errors &&
+                            registerCompanyForm.controls['companyEmail'].errors[
+                              'required'
+                            ]
+                          "
+                        >
+                          Email is required
+                        </div>
+                        <div
+                          class="text-danger mt-2"
+                          *ngIf="
+                            submitted &&
+                            registerCompanyForm.controls['companyEmail']
+                              .errors &&
+                            registerCompanyForm.controls['companyEmail'].errors[
+                              'emailInvalid'
+                            ]
+                          "
+                        >
+                          Email format is invalid
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end company email -->
+
+                  <!-- start password1 -->
+                  <div class="row mt-3">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="password1" class="login-labels"
+                            >Password:</label
+                          >
+                        </div>
+                      <p-password
+                          id="password1"
+                          [toggleMask]="true"
+                          [style]="{ width: '100%' }"
+                          formControlName="password1"
+                        ></p-password>
+
+                        <div
+                          class="text-danger mt-2"
+                          *ngIf="
+                            submitted &&
+                            registerCompanyForm.controls['password1'].errors &&
+                              registerCompanyForm.controls['password1'].errors[
+                                'required'
+                              ]
+                          "
+                        >
+                          Password is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end password1 -->
+                  <!-- start password2 -->
+                  <div class="row mt-3">
+                    <div class="col">
+                      <div class="form-group">
+                        <div>
+                          <label for="password2" class="login-labels"
+                            >Confirm Password:</label
+                          >
+                        </div>
+                      <p-password
+                          id="password2"
+                          [feedback]="false"
+                          [toggleMask]="true"
+                          [style]="{ width: '100%' }"
+                          formControlName="password2"
+                        ></p-password>
+
+                        <div
+                          class="text-danger mt-2"
+                          *ngIf="
+                            submitted &&
+                            registerCompanyForm.controls['password2'].errors &&
+                              registerCompanyForm.controls['password2'].errors[
+                                'required'
+                              ]
+                          "
+                        >
+                          Confirm Password is required
+                        </div>
+
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            registerCompanyForm.controls['password2'].hasError(
+                              'passwordMismatch'
+                            )
+                          "
+                        >
+                          Passwords do not match.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end password2 -->
+                  <!-- start submit button -->
+                  <div class="row mt-5">
+                    <div class="col">
+                      <button
+                        [disabled]="processing"
+                        class="btn btn-primary btn-block recruiter-login-btn"
+                        type="submit"
+                      >
+                        Register
+                        <div
+                          *ngIf="processing"
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                        ></div>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- end submit button -->
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end main form left side -->
+  </div>
+  <div *ngIf="!isSmallScreen" class="col-md-2">
+   
+  </div>
+</div>

@@ -1,0 +1,163 @@
+<p-toast></p-toast>
+
+<!-- start header -->
+
+<div id="containerBody2">
+  <!-- lg screen header -->
+  <div *ngIf="isLoggedIn" class="container d-none d-lg-block">
+    <div class="container-fluid ">
+      <header class="py-3" style="background-color: #F7F7F7;margin-left: 17px;
+margin-right: 17px;
+padding: 15px 47px 15px 0;margin-bottom: 5px;">
+        <div class="row">
+          <div class="col-md-4" style="position: relative;">
+            <div style="background-color: #97C5E8;
+            text-align: left;
+            width: 135px;
+            padding: 8px;
+            position: absolute;
+            top: 12px;
+            left: -25px;
+            opacity: 0.8;cursor: pointer;" (click)="clientLogin()"><i class="fa fa-chevron-left" style="font-size:18px;margin-right: 20px;color: #00467F;"></i>
+        <i class="fa fa-home" style="font-size:20px;margin-right: 5px;color: #00467F;"></i><span style="font-size: 12px;color: #00467F;">Home</span>
+      </div>
+          </div>
+          <div class="col-md-4 d-flex justify-content-center">
+            <span (click)="clientLogin()"
+              class="d-flex align-items-center  mb-2 mb-md-0 mr-5 text-dark text-decoration-none">
+              <img src="assets/img/morguard_logo.png" alt="morguard-logo" class="img-logo">
+            </span>
+          </div>
+          <div class="col-md-4 ">
+            <div class="text-end  align-items-center justify-content-end float-right">
+              <div class="d-flex align-items-start">
+                <div class="text-end">
+                  <div class="text-end">Hi {{name}}</div>
+                  <div *ngIf="appUser && (appUser.email)" class="text-end">
+                    <span class="subs_status">
+                      ({{appUser.email}})
+                    </span>
+                  </div>
+                  <div><span (click)="reRouteToLogin()" class="sub-header-text  cursor-pointer" href="#"><i
+                        class="fa fa-sign-out"></i> Log out</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </header>
+    </div>
+  </div>
+
+
+  <!-- md screen header -->
+  <div *ngIf="isLoggedIn" class="container d-block d-lg-none mt-xs-2 mt-sm-3 mt-md-4 mb-md-4 mb-sm-2">
+    <nav class="navbar navbar-expand-lg  navbar-light " #navbarNavDropdown>
+      <div class="container-fluid ">
+
+
+        <!-- Logo Section -->
+        <span (click)="clientLogin()" class="text-dark text-decoration-none">
+          <img src="assets/img/morguard_logo.png" alt="morguard-logo" class="img-logo">
+        </span>
+        <!-- End -->
+
+        <!-- Header Links Section -->
+        <div class="d-none d-sm-block">
+          <ul class="nav  mb-2 justify-content-center mb-md-0 ">
+            <li><span (click)="reRouteToHome()" class="nav-link   link-dark cursor-pointer">Home</span></li>
+            <!-- <li *ngIf="appUser && appUser.user_type !== 'RECRUITER'" ><span (click)="reRouteToPricing()" class="nav-link   link-dark cursor-pointer">Payment Plans</span></li>
+      <li (click)="openSupportModal()"><span  data-bs-toggle="modal"  data-bs-target="#exampleModal" class="nav-link  link-dark cursor-pointer">Support</span></li>
+    -->
+          </ul>
+        </div>
+        <!-- End -->
+
+
+        <!-- Hide on the small screens -->
+        <div class="col-md-3 text-end d-flex align-items-center justify-content-end d-none d-lg-block">
+          <div class="d-flex align-items-start">
+            <span class="px-1 d-block link-dark text-decoration-none " aria-expanded="false">
+              <p-avatar shape="circle" size="large" [style]="{ 'background-color': '#A12D81', color: '#ffffff' }"
+                label="{{initials.substring(0, 2)}}"></p-avatar>
+            </span>
+            <div class="text-end">
+              <div class="text-end">Hi {{name}}</div>
+              <div *ngIf="appUser && (appUser.email)" class="text-end">
+                <span class="subs_status">
+                  ({{appUser.email}})
+                </span>
+              </div>
+
+              <div><span (click)="reRouteToLogin()" class="subs_status cursor-pointer" href="#"><i
+                    class="fa fa-sign-out"></i> Log out</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- End -->
+
+
+        <!-- Small Screen Drop down Section -->
+        <button (click)="toggleNavbarCollapsing()" class="navbar-toggler" type="button"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="container">
+          <div class="row justify-content-end">
+            <div [class.collapse]="navbarCollapsed"
+              class=" justify-content-center bg-light shadow mt-2 d-lg-none d-xl-none p-2"
+              style="border-radius: 10px; max-width: 450px;" id="navbarNavDropdown">
+              <div class="container-fluid" style="max-width: 450px;">
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="navbar-nav p-2 d-lg-none d-xl-none">
+                      <li class="nav-item">
+                        <div class="d-flex text-black">
+                          <div class="flex-shrink-0">
+                            <p-avatar shape="circle" size="large"
+                              [style]="{ 'background-color': '#A12D81', color: '#ffffff' }"
+                              label="{{initials.substring(0, 2)}}"></p-avatar>
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1">Hi {{name}}</h6>
+                            <p class="mb-2 pb-1" style="color: #2b2a2a;">({{appUser.email}})</p>
+                          </div>
+                        </div>
+                      </li>
+
+                      <li class="nav-item">
+                        <span (click)="reRouteToLogin()" class="cursor-pointer"><i class="fa fa-sign-out"></i> Log
+                          out</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End  -->
+
+      </div>
+    </nav>
+
+  </div>
+
+  <div (click)="onDocumentClick($event)" class="overlay" *ngIf="isNavbarExpanded"></div>
+  <!-- end header -->
+  <router-outlet></router-outlet>
+
+  <!-- start footer -->
+  <div class="row justify-content-between" style="background-color: #000;
+min-height: 70px;">
+    <div class="col-md-12">
+<p class="cp-text text-center mt-3" style="color: #fff;font-size: 14px;">
+  © Copyright 2024 Morguard. All rights reserved.
+</p>
+    </div>
+
+  </div>
+  <!-- end footer -->
+</div>

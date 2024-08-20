@@ -1,0 +1,9 @@
+__pycache__/
+*.ipynb
+migrations/
+.vscode/
+/.angular/cache
+.angular/cache/
+.env
+morguard/.env
+package-lock.json
