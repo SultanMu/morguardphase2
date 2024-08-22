@@ -12,10 +12,10 @@ client_id = os.getenv("client_id")
 client_secret = os.getenv("client_secret")
 tenant_id = os.getenv("tenant_id")
 class ExtractData:
-    def __init__(self):
-        response = Credentials(client_id,client_secret,tenant_id).auth().json()
-        self.token = response["access_token"]
-        self.expires_on = response["expires_on"]
+    # def __init__(self):
+        # response = Credentials(client_id,client_secret,tenant_id).auth().json()
+        # self.token = response["access_token"]
+        # self.expires_on = response["expires_on"]
         # self.executor = ThreadPoolExecutor()
     async def create_index(self, documents, show_progress):
         vector_store = PGVectorStore.from_params(
