@@ -10,13 +10,13 @@ export class FileService {
 
   public listdrives(bucket_name:string): Observable<any> {
   // const headers = new HttpHeaders().set('Cookie',`jwt=${this.jwtToken}`);
-  const url = `${APIEndpoints.API_CLIENT}/list-drives/?bucket_name=${encodeURIComponent(bucket_name)}`;
+  const url = `${APIEndpoints.API_CLIENT}/list-folders/?bucket_name=${encodeURIComponent(bucket_name)}`;
   return this.http.get(url, { withCredentials: true });
   // return this.http.get(url);
   }
   
   public expanddrive(bucket_name:any,uuid:any): Observable<any> {
-    const url = `${APIEndpoints.API_CLIENT}/expand-drive/?bucket_name=${encodeURIComponent(bucket_name)}&folder_name=${encodeURIComponent(uuid)}`;
+    const url = `${APIEndpoints.API_CLIENT}/expand-folder/?bucket_name=${encodeURIComponent(bucket_name)}&folder_name=${encodeURIComponent(uuid)}`;
     return this.http.get(url, { withCredentials: true });
   }
 
