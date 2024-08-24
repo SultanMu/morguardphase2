@@ -26,7 +26,7 @@ export class FileService {
       bucket_name:bucket_name,
       folder_name:folder_name
     };
-  const url = `${APIEndpoints.API_CLIENT}/index-files/`;
+  const url = `${APIEndpoints.API_CLIENT}/process-files/`;
   return this.http.post(url,requestBody, {withCredentials: true})
   }
 }
