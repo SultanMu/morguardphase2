@@ -7,6 +7,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CompanyRegisterComponent } from './company-register/company-register.component';
 import { AuthGuard } from './helpers/auth.guard';
+import { FileListComponent } from './file-list/file-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -17,7 +18,7 @@ const routes: Routes = [
   { path: 'password-reset', component: ResetPasswordComponent },
   { path: 'list-drives', component: ListDrivesComponent, canActivate: [AuthGuard]},
   { path: 'company-register', component: CompanyRegisterComponent },
-  { path: 'company-login', component: RecruiterLoginComponent },
+  { path: 'file-list', component: FileListComponent },
   { path: 'companylogin', component: RecruiterLoginComponent },
 
   // { path: 'vanity-name', component: UserDetailsComponent},
