@@ -29,7 +29,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy - Water Audit" report.
 
-            Query: Extract the "Author" of the report from the document. This is the individual or group of individuals who authored or prepared the report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
+            Query: Extract the "Author" of the report from the document. Avoid using the name of the document or any text editor name like MS word. This is the individual or group of individuals responsible for writing the report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
             """,
             """
             You are extracting data from an "Energy - Water Audit" report.
@@ -68,7 +68,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Property Condition Assessment" report.
 
-            Query: Extract the "Author" of the report from the document. This is the person or persons responsible for creating the report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
+            Query: Extract the "Author" of the report from the document. Avoid using the name of the document or any text editor name like MS word. This is the person or persons responsible for writing creating the report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
             """,
             """
             You are extracting data from a "Property Condition Assessment" report.
@@ -107,7 +107,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy and Water Management Plan" report.
 
-            Query: Extract the "Author" of the report from the document. This is the person or group who authored the management plan. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
+            Query: Extract the "Author" of the report from the document. Avoid using the name of the document or any text editor name like MS word. This is the person or group responsible for writing the management plan. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
             """,
             """
             You are extracting data from an "Energy and Water Management Plan" report.
@@ -146,7 +146,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
 
-            Query: Extract the "Author" of the report from the document. This is the person or team who prepared the emergency plan. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
+            Query: Extract the "Author" of the report from the document. Avoid using the name of the document or any text editor name like MS word. This is the person or team responsible for writing the emergency plan. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
             """,
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
@@ -185,7 +185,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "IAQ Audit" report.
 
-            Query: Extract the "Author" of the report from the document. This is the individual or team responsible for the IAQ audit report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
+            Query: Extract the "Author" of the report from the document. Avoid using the name of the document or any text editor name like MS word. This is the individual or team responsible for writing the IAQ audit report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
             """,
             """
             You are extracting data from an "IAQ Audit" report.
@@ -224,7 +224,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Waste Audit" report.
 
-            Query: Extract the "Author" of the report from the document. This is the person or team who authored the waste audit report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
+            Query: Extract the "Author" of the report from the document. Avoid using the name of the document or any text editor name like MS word. This is the person or team responsible for writing the waste audit report. If not found, return "Not Available". Return only the result in the following JSON format: {"Author": "[Author]"}
             """,
             """
             You are extracting data from a "Waste Audit" report.

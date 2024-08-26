@@ -31,12 +31,12 @@ CORS_ORIGIN_WHITELIST = [
     'https://app.morguard.ngrok.io' # Add your frontend's origin here
     # other trusted origins...
 ]
-CORS_ALLOWED_ORIGINS = ["https://app.morguard.ngrok.io"]
-# headers to be allowed
-# CORS_ALLOW_HEADERS =  [
-#     'Authorization'
-# ]
-# Application definition
+CORS_ALLOWED_ORIGINS = ["https://app.morguard.ngrok.io","http://10.191.0.11:4512"]
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True 
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
