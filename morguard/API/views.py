@@ -19,7 +19,7 @@ ext = ExtractData()
             OpenApiParameter(
             "jwt",  # Optional cookie parameter
             type=str,
-            location="cookie",
+            location="query",
             description="cookie for authentication",
             required=True
         )],
@@ -34,7 +34,7 @@ ext = ExtractData()
 @api_view(['GET']) 
 def list_s3_folders(request):
     if request.method == "GET":
-        token = request.COOKIES.get("jwt")
+        token = request.GET.get("jwt")
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
         try:
@@ -56,7 +56,7 @@ def list_s3_folders(request):
                 OpenApiParameter(
             "jwt",  # Optional cookie parameter
             type=str,
-            location="cookie",
+            location="query",
             description="cookie for authentication",
             required=True
         )],
@@ -70,7 +70,7 @@ def list_s3_folders(request):
 @api_view(['GET']) 
 def expand_s3_folder(request):
     if request.method == "GET":
-        token = request.COOKIES.get("jwt")
+        token = request.GET.get("jwt")
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
         try:
@@ -86,7 +86,15 @@ def expand_s3_folder(request):
         except Exception as e:
             return Response({"exception":str(e)},status.HTTP_404_NOT_FOUND)
 
-@extend_schema(
+@extend_schema(    
+        parameters=[
+        OpenApiParameter(
+            "jwt",  # Optional cookie parameter
+            type=str,
+            location="query",
+            description="cookie for authentication",
+            required=True
+        )],
     request=IndexSerializer,
     examples=[
                     OpenApiExample(
@@ -107,7 +115,7 @@ def expand_s3_folder(request):
 @api_view(['POST'])
 async def index_files(request):
     if request.method == "POST":
-        token = request.COOKIES.get("jwt")
+        token = request.GET.get("jwt")
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
         try:
