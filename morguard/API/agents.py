@@ -9,7 +9,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy - Water Audit" report.
 
-            Query: Identify and extract the "Report Title" from the document. The report title is usually found at the top or beginning of the document, summarizing the content of the report. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
+            Query: Identify and extract the "Report Title" from the document. Ensure the title is relevant to energy-water audit and not a file name or unrelated heading. If the title is missing or unclear, return "Not Available". Return the result as a valid json: {"Report Title": "[Report Title]"}
             """,
             """
             You are extracting data from an "Energy - Water Audit" report.
@@ -48,7 +48,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Property Condition Assessment" report.
 
-            Query: Identify and extract the "Report Title" from the document. The report title summarizes the main focus of the document. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
+            Query: Identify and extract the "Report Title" from the document. Ensure the title is relevant to property condition assessment and not a file name or unrelated heading. If the title is missing or unclear, return "Not Available". Return the result as a valid json: {"Report Title": "[Report Title]"}
             """,
             """
             You are extracting data from a "Property Condition Assessment" report.
@@ -87,7 +87,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy and Water Management Plan" report.
 
-            Query: Identify and extract the "Report Title" from the document. This title reflects the main objective or focus of the management plan. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
+            Query: Identify and extract the "Report Title" from the document. Ensure the title is relevant to energy and water management plans and not a file name or unrelated heading. If the title is missing or unclear, return "Not Available". Return the result as a valid json: {"Report Title": "[Report Title]"}
             """,
             """
             You are extracting data from an "Energy and Water Management Plan" report.
@@ -126,7 +126,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
 
-            Query: Identify and extract the "Report Title" from the document. The title should indicate the focus or scope of the preparedness plan. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
+            Query: Identify and extract the "Report Title" from the document. Ensure the title is relevant to emergency preparedness plans and not a file name or unrelated heading. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
             """,
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
@@ -165,7 +165,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "IAQ Audit" report.
 
-            Query: Identify and extract the "Report Title" from the document. The title should reflect the main focus or findings of the IAQ audit. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
+            Query: Identify and extract the "Report Title" from the document. Ensure the title is relevant to IAQ Audit and not a file name or unrelated heading. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
             """,
             """
             You are extracting data from an "IAQ Audit" report.
@@ -204,7 +204,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Waste Audit" report.
 
-            Query: Identify and extract the "Report Title" from the document. The title should summarize the content or findings of the waste audit. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
+            Query: Identify and extract the "Report Title" from the document. Ensure the title is relevant to Waste Audit and not a file name or unrelated heading. If the title is missing or unclear, return "Not Available". Return only the result in the following JSON format: {"Report Title": "[Report Title]"}
             """,
             """
             You are extracting data from a "Waste Audit" report.

@@ -4,11 +4,16 @@ import aiohttp
 from .authorization import Credentials
 from llama_index.llms.openai import OpenAI
 import os   
-from llama_index.core import VectorStoreIndex,Document
+# from llama_index.core import VectorStoreIndex,Document
+from llama_index.legacy import Document
 import json
 import re
 from . import agents
 from llama_index.legacy.vector_stores.postgres import PGVectorStore
+from llama_index.legacy import GPTVectorStoreIndex,  ServiceContext
+from llama_index.embeddings.openai import OpenAIEmbedding
+embedding_model = OpenAIEmbedding(model="text-embedding-ada-002") 
+service_context = ServiceContext.from_defaults(embed_model=embedding_model)
 client_id = os.getenv("client_id")
 client_secret = os.getenv("client_secret")
 tenant_id = os.getenv("tenant_id")
@@ -25,9 +30,10 @@ class ExtractData:
             table_name="MguardFileEmbeddings",
             embed_dim=1536,  # openai embedding dimension
         )
-        index = VectorStoreIndex.from_documents(documents,show_progress=show_progress,run_async=True)
+        # index = VectorStoreIndex.from_documents(documents,show_progress=show_progress,run_async=True)
         # index = KeywordTableIndex.from_documents(documents, llm=self.llm)
         # index.storage_context.add_vector_store(vector_store,)
+        index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
         return index
         
     
