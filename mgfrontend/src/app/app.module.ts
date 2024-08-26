@@ -38,6 +38,7 @@ import { CompanyRegisterComponent } from './company-register/company-register.co
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { FileListComponent } from './file-list/file-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     ResetPasswordComponent,
     NotFoundComponent,
     CompanyRegisterComponent,
+    FileListComponent,
   ],
   imports: [
     InputSwitchModule,

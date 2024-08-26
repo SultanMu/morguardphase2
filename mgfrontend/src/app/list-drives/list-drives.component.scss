@@ -106,3 +106,16 @@ padding-left: 0;
   {
     min-height:35px;
   }
+  .btn-process
+  {
+    background: #01D8B7;min-width: 100px;
+  &.lg
+  {
+    min-width: 135px;  
+  }
+    }
+  .btn-prod
+  {
+    background: #14477E; 
+    min-width: 135px;  
+  }

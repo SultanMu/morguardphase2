@@ -109,7 +109,8 @@ export class LoginComponent implements AfterViewInit, OnInit {
             data.email = username;
             // data.token = response.jwt;
             this.localStorageService.saveData('appUser', data);
-            document.cookie = `jwt=${cookieValue}; expires=...; path=/`;
+            // document.cookie = `jwt=${cookieValue}; expires=...; path=/`;
+            document.cookie = `jwt=${cookieValue}; path=/`;
             // set on the header
             this.dataService.setAppUser(data);
             this.router.navigate(['/list-drives']);
