@@ -2,6 +2,7 @@ from io import BytesIO
 import pdfplumber
 import aiohttp
 from .authorization import Credentials
+from llama_index.llms.openai import OpenAI
 import os   
 from llama_index.core import VectorStoreIndex,Document
 import json
@@ -13,10 +14,7 @@ client_secret = os.getenv("client_secret")
 tenant_id = os.getenv("tenant_id")
 class ExtractData:
     def __init__(self):
-        response = Credentials(client_id,client_secret,tenant_id).auth().json()
-        self.token = response["access_token"]
-        self.expires_on = response["expires_on"]
-        # self.executor = ThreadPoolExecutor()
+        self.llm =  OpenAI(temperature=0, model="gpt-4")
     async def create_index(self, documents, show_progress):
         vector_store = PGVectorStore.from_params(
             database=os.getenv("name"),
@@ -28,18 +26,10 @@ class ExtractData:
             embed_dim=1536,  # openai embedding dimension
         )
         index = VectorStoreIndex.from_documents(documents,show_progress=show_progress,run_async=True)
+        # index = KeywordTableIndex.from_documents(documents, llm=self.llm)
         # index.storage_context.add_vector_store(vector_store,)
         return index
         
-    # async def process_pdf(self, content: bytes):
-    #     documents = []
-    #     with pdfplumber.open(BytesIO(content)) as pdf:
-    #         for page_num, page in enumerate(pdf.pages):
-    #             text = re.sub(r"\s+", " ", page.extract_text().strip())
-    #             if text:
-    #                 documents.append(Document(text=text))
-    #         documents.append(Document(text="Report Metadata :" + str(pdf.metadata)))
-    #     return documents
     
     async def index_file(self,url:str,file_name:str,folder_name:str):
         async with aiohttp.ClientSession() as session:
@@ -57,20 +47,22 @@ class ExtractData:
             documents = [Document(text=text) for text in text_data]
             index = await self.create_index(documents,False)
             del documents
-            query_engine = index.as_query_engine()
-            response = query_engine.query(queries)
-            # response2 = query_engine.query(queries[1])
-            # response3 = query_engine.query(queries[2])
-            # response4 = query_engine.query(queries[3])
-            # response5 = query_engine.query(queries[4])
-            # response6 = query_engine.query(queries[5])
-            # response7 = query_engine.query(queries[6])
-            # responses = [response1,response2,response3,response4,response5,response6,response7]
-            # output = {}
-            # for resp in responses:
-            #     output.update(json.loads(str(resp)))
-            return {file_name:json.loads(str(response))}
+            query_engine = index.as_query_engine(llm=self.llm)
+            response1 = query_engine.query(queries[0])
+            response2 = query_engine.query(queries[1])
+            response3 = query_engine.query(queries[2])
+            response4 = query_engine.query(queries[3])
+            response5 = query_engine.query(queries[4])
+            response6 = query_engine.query(queries[5])
+            response7 = query_engine.query(queries[6])
+            responses = [response1,response2,response3,response4,response5,response6,response7]
+            output = {}
+            
+            for resp in responses:
+                output.update(json.loads(str(resp)))
+            return {file_name:output}
+            # return {"resp":{"data":responses}}
                 
         except Exception as e:
-            print(e)
-            raise Exception((e))
+            print(str(resp))
+            return {"exception":str(e)}
