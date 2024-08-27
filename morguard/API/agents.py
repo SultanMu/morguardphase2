@@ -34,7 +34,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy - Water Audit" report.
 
-            Query: Extract the "Summary" of the report from the document. The summary provides a brief overview of the key findings, objectives, or conclusions of the report. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
+            Query: Extract the "Summary" of the report from the document in 180 to 200 words. The summary provides a brief overview of the key findings, objectives, or conclusions of the report. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
             """
         ]
 
@@ -73,7 +73,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Property Condition Assessment" report.
 
-            Query: Extract the "Summary" of the report from the document. This summary provides an overview of the assessment's findings, recommendations, and conclusions. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
+            Query: Extract the "Summary" of the report from the document in 180 to 200 words. This summary provides an overview of the assessment's findings, recommendations, and conclusions. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
             """
         ]
 
@@ -112,7 +112,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy and Water Management Plan" report.
 
-            Query: Extract the "Summary" of the report from the document. The summary provides an overview of the goals, strategies, and outcomes of the management plan. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
+            Query: Extract the "Summary" of the report from the document in 180 to 200 words. The summary provides an overview of the goals, strategies, and outcomes of the management plan. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
             """
         ]
 
@@ -151,7 +151,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
 
-            Query: Extract the "Summary" of the report from the document. The summary provides an overview of the plan's key points, objectives, and strategies for emergency preparedness. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
+            Query: Extract the "Summary" of the report from the document in 180 to 200 words. The summary provides an overview of the plan's key points, objectives, and strategies for emergency preparedness. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
             """
         ]
 
@@ -190,7 +190,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "IAQ Audit" report.
 
-            Query: Extract the "Summary" of the report from the document. The summary should provide an overview of the key findings, conclusions, and recommendations of the IAQ audit. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
+            Query: Extract the "Summary" of the report from the document in 180 to 200 words. The summary should provide an overview of the key findings, conclusions, and recommendations of the IAQ audit. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
             """
         ]
 
@@ -229,7 +229,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Waste Audit" report.
 
-            Query: Extract the "Summary" of the report from the document. The summary should provide a concise overview of the waste audit's findings, recommendations, and conclusions. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
+            Query: Extract the "Summary" of the report from the document in 180 to 200 words. The summary should provide a concise overview of the waste audit's findings, recommendations, and conclusions. If a summary is not explicitly labeled, create a concise summary based on the content. Return only the result in the following JSON format: {"Summary": "[Summary]"}
             """
         ]
 
