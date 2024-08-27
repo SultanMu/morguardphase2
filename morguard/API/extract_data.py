@@ -54,16 +54,16 @@ class ExtractData:
             index = await self.create_index(documents,False)
             del documents
             query_engine = index.as_query_engine(llm=self.llm)
-            response1 = query_engine.query(queries[0])
+            # response1 = query_engine.query(queries[0])
             response2 = query_engine.query(queries[1])
             response3 = query_engine.query(queries[2])
             response4 = query_engine.query(queries[3])
             response5 = query_engine.query(queries[4])
             response6 = query_engine.query(queries[5])
             response7 = query_engine.query(queries[6])
-            responses = [response1,response2,response3,response4,response5,response6,response7]
+            responses = [response2,response3,response4,response5,response6,response7]
             output = {}
-            
+            output["Report Type"] = folder_name
             for resp in responses:
                 output.update(json.loads(str(resp)))
             return {file_name:output}

@@ -19,7 +19,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy - Water Audit" report.
 
-            Query: Extract the "Next Assessment Date" from the document. This date indicates when the next scheduled assessment or audit is due. If not found, return "Not Available". Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
+            Query: Extract the "Next Assessment Date" from the document. This date indicates when the next scheduled assessment or audit is due. If not found, add three months to tha date created and return it as Next Assessment Date. Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
             """,
             """
             You are extracting data from an "Energy - Water Audit" report.
@@ -58,7 +58,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Property Condition Assessment" report.
 
-            Query: Extract the "Next Assessment Date" from the document. This date suggests when the following assessment should be performed. If not found, return "Not Available". Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
+            Query: Extract the "Next Assessment Date" from the document. This date suggests when the following assessment should be performed. If not found, add three months to tha date created and return it as Next Assessment Date. Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
             """,
             """
             You are extracting data from a "Property Condition Assessment" report.
@@ -97,7 +97,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Energy and Water Management Plan" report.
 
-            Query: Extract the "Next Assessment Date" from the document. This date signifies when the next review or assessment of the plan is scheduled. If not found, return "Not Available". Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
+            Query: Extract the "Next Assessment Date" from the document. This date signifies when the next review or assessment of the plan is scheduled. If not found, add three months to tha date created and return it as Next Assessment Date. Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
             """,
             """
             You are extracting data from an "Energy and Water Management Plan" report.
@@ -136,7 +136,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
 
-            Query: Extract the "Next Assessment Date" from the document. This date indicates when the next review or update of the plan is due. If not found, return "Not Available". Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
+            Query: Extract the "Next Assessment Date" from the document. This date indicates when the next review or update of the plan is due. If not found, add three months to tha date created and return it as Next Assessment Date. Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
             """,
             """
             You are extracting data from an "Emergency Preparedness Plan" report.
@@ -175,7 +175,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from an "IAQ Audit" report.
 
-            Query: Extract the "Next Assessment Date" from the document. This is the date when the next IAQ audit is scheduled. If not found, return "Not Available". Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
+            Query: Extract the "Next Assessment Date" from the document. This is the date when the next IAQ audit is scheduled. If not found, add three months to tha date created and return it as Next Assessment Date. Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
             """,
             """
             You are extracting data from an "IAQ Audit" report.
@@ -214,7 +214,7 @@ async def get_query(folder_name: str):
             """
             You are extracting data from a "Waste Audit" report.
 
-            Query: Extract the "Next Assessment Date" from the document. This date indicates when the next waste audit is planned. If not found, return "Not Available". Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
+            Query: Extract the "Next Assessment Date" from the document. This date indicates when the next waste audit is planned. If not found, add three months to tha date created and return it as Next Assessment Date. Return only the result in the following JSON format: {"Next Assessment Date": "[Next Assessment Date]"}
             """,
             """
             You are extracting data from a "Waste Audit" report.
