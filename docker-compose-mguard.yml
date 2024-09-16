@@ -1,15 +1,15 @@
 version: '3'
 services:
-  frontend-service-phase-2:
-    restart: on-failure
-    build: 
-      context: mgfrontend/
-    container_name: "mguardfrontend-service-phase-2"
-    hostname: mguard-phase-2
-    ports:
-      - 4512:4201
-    networks:
-      - mguard_internal_net-phase-2
+  # frontend-service-phase-2:
+  #   restart: on-failure
+  #   build: 
+  #     context: mgfrontend/
+  #   container_name: "mguardfrontend-service-phase-2"
+  #   hostname: mguard-phase-2
+  #   ports:
+  #     - 4512:4201
+  #   networks:
+  #     - mguard_internal_net-phase-2
   backend-service-phase-2:
     restart: on-failure
     build: 
@@ -37,10 +37,10 @@ services:
     volumes:
       - mguard-db-data2-phase2:/var/lib/postgresql/data
       # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  mguard-file-processor:
+  mguard-file-processor-phase-2:
     build: 
       context: process_pdf/
-    container_name: "mguard-file-processor"
+    container_name: "mguard-file-processor-phase-2"
     hostname: mguard-phase-2
     depends_on:
       - backend-service-phase-2
