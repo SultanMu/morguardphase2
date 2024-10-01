@@ -24,7 +24,7 @@ services:
         - mguard-db-service-phase-2
     networks:
       - mguard_internal_net-phase-2
-    # entrypoint: ["sh", "-c", "python3 db_await.py && python3 manage.py makemigrations && python3 manage.py migrate && gunicorn morguard.asgi:application"]
+    entrypoint: ["sh", "-c", "python3 db_await.py && python3 manage.py makemigrations && python3 manage.py migrate && gunicorn morguard.asgi:application"]
   mguard-db-service-phase-2:
     image: ankane/pgvector:v0.5.1
     environment:
@@ -42,6 +42,8 @@ services:
       context: process_pdf/
     container_name: "mguard-file-processor-phase-2"
     hostname: mguard-phase-2
+    env_file:
+      - ./morguard/.env
     depends_on:
       - backend-service-phase-2
     networks:

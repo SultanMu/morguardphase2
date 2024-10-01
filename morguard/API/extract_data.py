@@ -1,68 +1,22 @@
 import aiohttp
 from .authorization import Credentials
-from llama_index.llms.openai import OpenAI
+
 import os   
 # from llama_index.core import VectorStoreIndex,Document
 from llama_index.legacy import Document
 import json
 import re
 from . import agents
-from llama_index.legacy.vector_stores.postgres import PGVectorStore
-from llama_index.legacy import GPTVectorStoreIndex,  ServiceContext
-from llama_index.embeddings.openai import OpenAIEmbedding
-embedding_model = OpenAIEmbedding(model="text-embedding-ada-002") 
-service_context = ServiceContext.from_defaults(embed_model=embedding_model)
-client_id = os.getenv("client_id")
-client_secret = os.getenv("client_secret")
-tenant_id = os.getenv("tenant_id")
-class ExtractData:
-    def __init__(self):
-        self.llm =  OpenAI(temperature=0, model="gpt-4")
-    async def create_index(self, documents, show_progress):
-        vector_store = PGVectorStore.from_params(
-            database=os.getenv("name"),
-            host=os.getenv("host"),
-            password=os.getenv("password"),
-            port=os.getenv("port"),
-            user=os.getenv("user"),
-            table_name="MguardFileEmbeddings",
-            embed_dim=1536,  # openai embedding dimension
-        )
-        # index = VectorStoreIndex.from_documents(documents,show_progress=show_progress,run_async=True)
-        # index = KeywordTableIndex.from_documents(documents, llm=self.llm)
-        # index.storage_context.add_vector_store(vector_store,)
-        index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
-        return index
+
         
-    
+class ExtractData:    
     async def index_file(self,url:str,file_name:str,folder_name:str):
         async with aiohttp.ClientSession() as session:            
             async with session.post("http://mguard-file-processor-phase-2:8000/process/",data={"content":url}) as response:
                 response.raise_for_status()
                 texts= await response.json()
-                text_data = texts.get("texts",[])
+                text_data = texts.get("fields",[])
             if len(text_data) == 0:
                 return {"exception":"Failed to process","file_name":file_name}
-        try:
-            queries = await agents.get_query(folder_name)
-            documents = [Document(text=text) for text in text_data]
-            index = await self.create_index(documents,False)
-            del documents
-            query_engine = index.as_query_engine(llm=self.llm)
-            # response1 = query_engine.query(queries[0])
-            response2 = query_engine.query(queries[1])
-            response3 = query_engine.query(queries[2])
-            response4 = query_engine.query(queries[3])
-            response5 = query_engine.query(queries[4])
-            response6 = query_engine.query(queries[5])
-            response7 = query_engine.query(queries[6])
-            responses = [response2,response3,response4,response5,response6,response7]
-            output = {}
-            output["Report Type"] = folder_name
-            for resp in responses:
-                output.update(json.loads(str(resp)))
-            return {file_name:output}
-            # return {"resp":{"data":responses}}
-                
-        except Exception as e:
-            return {"exception":str(e)}
+            else:
+                return text_data

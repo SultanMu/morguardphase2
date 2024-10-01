@@ -1,5 +1,6 @@
 fastapi[standard]
 uvicorn[standard]
 pdfplumber==0.11.0
+llama-index==0.10.40
 python-docx==1.1.2
 aiohttp==3.9.5
