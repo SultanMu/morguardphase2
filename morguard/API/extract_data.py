@@ -1,14 +1,4 @@
-import aiohttp
-from .authorization import Credentials
-
-import os   
-# from llama_index.core import VectorStoreIndex,Document
-from llama_index.legacy import Document
-import json
-import re
-from . import agents
-
-        
+import aiohttp        
 class ExtractData:    
     async def index_file(self,url:str,file_name:str,folder_name:str):
         async with aiohttp.ClientSession() as session:            
@@ -19,4 +9,4 @@ class ExtractData:
             if len(text_data) == 0:
                 return {"exception":"Failed to process","file_name":file_name}
             else:
-                return text_data
+                return {file_name:text_data}

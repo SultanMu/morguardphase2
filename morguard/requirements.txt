@@ -8,7 +8,6 @@ pdfplumber==0.11.0
 adrf==0.1.6
 gunicorn==22.0.0
 uvicorn==0.29.0
-llama-index==0.10.40
 boto3
 python-dotenv==1.0.1
 drf-yasg==1.21.7
