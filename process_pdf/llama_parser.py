@@ -7,11 +7,13 @@ from llama_index.core import  ServiceContext,StorageContext,VectorStoreIndex
 from llama_index.core.node_parser import MarkdownElementNodeParser
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings
-from dotenv import load_dotenv
 client_id = os.getenv("client_id")
 client_secret = os.getenv("client_secret")
 tenant_id = os.getenv("tenant_id")
 from llama_index.llms.openai import OpenAI
+
+from dotenv import load_dotenv
+load_dotenv()
 class FileParser:
     def __init__(self):
         EMBEDDING_MODEL  = "text-embedding-3-small"

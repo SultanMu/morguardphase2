@@ -1,42 +1,29 @@
 parsing_instructions="""
-Document Type: Audit Report
+The task is to extract specific information from a document, typically a report such as an audit or similar structured document. The extracted data will be used for further processing and analysis, so precision and structured output are essential. The extraction process involves identifying relevant sections or metadata that may contain the required information. When explicit data is not available, predefined fallback strategies must be applied, such as using file metadata or performing simple calculations.
 
-Key Fields to Extract with Relevant Keywords:
+Key elements of the document to be parsed include the title, dates, author information, company name, and summaries of the content. These elements are often formatted in predictable ways, such as headings, dates, or specific keywords like "Prepared by" or "Date Created". The document may use various terminologies or formats, so the parser must be flexible enough to account for different layouts and wordings. In cases where the required information is missing, fallback methods, such as deriving data from the document's metadata or calculating estimates, will be applied.
+
+The output must be structured in a valid and machine-readable format, ensuring consistency across documents regardless of minor variations in structure or formatting."""
+query="""
+Extract the following information from the document and return the result in valid JSON format:
 
 Report Title:
 
-Keywords: "Title," "Report Title," or bolded text near the top of the document.
-Location: Typically located at the very beginning of the document, often bolded or formatted as a heading.
+Identify the "Report Title" of the document. If a title is not found, use the file name. If neither is available, return "Not Available."
 Date Created:
 
-Keywords: "Date Created," "Issued Date," "Creation Date."
-Location: Usually found near the title or in metadata sections, headers, or footers.
+Extract the date the document was created, generally found on the first page and may be labeled as "Date Prepared." If not found in the document, use the file creation date. Return the result in YYYY-MM-DD format, or YYYY-MM if the exact day is unavailable. If no date is found, return "Not Available."
 Next Assessment Date:
 
-Keywords: "Next Assessment Date," "Next Review Date," "Review Cycle," "Scheduled Review."
-Location: May be located in sections like the summary, conclusion, or validity statements.
+Locate the "Next Assessment Date." If unavailable, calculate it by adding three months to the "Date Created" and provide the result in YYYY-MM-DD or YYYY-MM format if the day is unavailable. If no "Date Created" is available to calculate from, return "Not Available."
+Company:
+
+Extract the name of the company or organization that prepared the document. Look for labels such as "Prepared by" or "Préparé par." If the company name cannot be found, use the file name if it contains relevant information. If still unavailable, return "Not Available."
 Author:
 
-Keywords: "Author," "Prepared by," "Report Author," "Prepared for."
-Location: Typically found near the title, in footers, or in the signature section of the document.
+Find the name of the document's author. Look for terms such as "Author," "Prepared by," or "Submitted by." If the author is not found, return "Not Available."
 Summary:
 
-Keywords: "Executive Summary," "Summary," "Key Findings," "Overview."
-Location: Usually appears in a "Summary" or "Executive Summary" section or can be inferred from the introduction or conclusion.
-"""
-query="""
-Extract the following from the and return the result in valid JSON format:
-
-1. Report Title: What is the "Report Title" of the document/report? If not found in the document, use the file name. If no "Title" is found, return "Not Available".  
-
-2. Date Created: What is the Date the document was created? It is generally found on the first page and may be listed as "Date prepared." If not found, use the file creation date. Provide the result in YYYY-MM-DD or YYYY-MM format if the day is unavailable. If none is found, return "Not Available".  
-
-3. Next Assessment Date: What is the "Next Assessment Date"? Present it in YYYY-MM-DD or YYYY-MM format if the day is not found. If missing, calculate it by adding three months to the "Date Created".  
-
-4. Company: Find the name of the "Company" or organization that prepared the document/report. It may appear as "Préparé par" or "prepared by". Avoid the client company name and prioritize the company that prepared the document. Extract from the document or file name if needed. If unavailable, return "Not Available".  
-
-5. Author: Extract the "Author" of the document, look for terms such as "author", "prepared by", or "submitted by". The author may be the person who signed the document. If unavailable, return "Not Available".  
-
-6. Summary: Summarize the executive summary, if present, then summarize the entire document/report in 180-200 words, including important facts and figures.  
+Extract and summarize the executive summary, if present. If there is no executive summary, provide a concise summary of the document in 180-200 words, including key facts and figures.
 
 """

@@ -1,10 +1,7 @@
-import pdfplumber
 from io import BytesIO
-import re
 import json
 import aiohttp
 import urllib.parse
-import docx
 from fastapi import FastAPI, Request
 from llama_parser import FileParser
 from parsing_instructions import parsing_instructions,query

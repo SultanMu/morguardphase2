@@ -7,3 +7,4 @@ migrations/
 .env
 morguard/.env
 package-lock.json
+/mgfrontend/node_modules/
