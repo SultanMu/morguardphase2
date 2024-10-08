@@ -6,11 +6,15 @@ from rest_framework import status
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 from adrf.decorators import api_view
+from django.core import serializers
+from asgiref.sync import sync_to_async
+from datetime import timedelta,datetime
 from .extract_data import ExtractData
 from .models import User
 from .serializers import IndexSerializer,UserSerializer,LoginSerializer
-import jwt,datetime,asyncio,os
+import jwt,asyncio,os
 from . import s3_access as s3
+from .models import Company
 ext = ExtractData()
 
 # Create your views here.
@@ -129,8 +133,55 @@ async def index_files(request):
         folder_name = request_body.get("folder_name")
         indexes = [ext.index_file(s3.get_s3_file_url(bucket_name,folder_name,file_name), file_name,folder_name) for file_name in files]
         files = await asyncio.gather(*indexes)
-        return Response(data=files,status=status.HTTP_200_OK)
+        files_data = [
+            {
+                'type': file_info_dict.get('Report Type'),  # No quotes around the key name
+                'title': file_info_dict.get('Report Title', "0"),
+                'created_date': file_info_dict.get('Date Created'),
+                'next_asses_date': file_info_dict.get('Next Assessment Date', "NA"),
+                'company': file_info_dict.get('Company', "NA"),
+                'author': file_info_dict.get('Author', "NA"),
+                'summary': file_info_dict.get('Summary'),
+                'file_name': file_name,
+                'flag': True if "Not Available" in file_info_dict.values() else False
+            }
+            for file_data in files for file_name, file_info_dict in file_data.items()
+        ]
+        await sync_to_async(Company.objects.bulk_create)([Company(**data) for data in files_data])
+        return Response(data=files, status=status.HTTP_200_OK)
+
     
+@extend_schema(
+    parameters=[OpenApiParameter("file_name",type=str,location='query',required=True),
+                OpenApiParameter(
+            "jwt",  # Optional cookie parameter
+            type=str,
+            location="query",
+            description="cookie for authentication",
+            required=True
+        )],
+    summary="Get the file data",
+    examples=[OpenApiExample("get the file data from the database",summary="Json response",value={"file_name":"file-A"},response_only=True)],
+    description='get the file data',
+    responses={
+        status.HTTP_200_OK: {"description": "Successful response", "content": {"application/json": {}}},
+        status.HTTP_404_NOT_FOUND: {"description": "Profile does not exist", "content": {"application/json": {}}},
+    })
+@api_view(['GET'])
+def get_file_data(request):
+    token = request.GET.get("jwt")
+    if not token:
+        raise AuthenticationFailed("Unauthenticated!")
+    try:
+        payload = jwt.decode(token,key=os.getenv('jwt_secret'),algorithms=['HS256'])
+
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed("Unauthenticated!")
+    one_month_ago = datetime.now() - timedelta(days=30)
+    records = Company.objects.filter(date_processed__gte=one_month_ago)
+    json_data = serializers.serialize('json', records)
+    resp_data =[val.get("fields") for val in eval(json_data.replace("false","False"))]
+    return Response(resp_data)  
 
 class RegisterView(APIView):
     serializer_class = UserSerializer

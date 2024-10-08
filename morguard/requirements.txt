@@ -15,3 +15,4 @@ PyJWT==2.8.0
 sqlalchemy[asyncio] 
 pgvector
 asyncpg
+aiohttp==3.9.5
