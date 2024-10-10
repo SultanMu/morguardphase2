@@ -8,10 +8,10 @@ from drf_yasg.utils import swagger_auto_schema
 from adrf.decorators import api_view
 from django.core import serializers
 from asgiref.sync import sync_to_async
-from datetime import timedelta,datetime
+from datetime import timedelta,datetime,timezone
 from .extract_data import ExtractData
 from .models import User
-from .serializers import IndexSerializer,UserSerializer,LoginSerializer
+from .serializers import IndexSerializer,UserSerializer,LoginSerializer,ReportSerializer
 import jwt,asyncio,os
 from . import s3_access as s3
 from .models import Company
@@ -180,8 +180,85 @@ def get_file_data(request):
     one_month_ago = datetime.now() - timedelta(days=30)
     records = Company.objects.filter(date_processed__gte=one_month_ago)
     json_data = serializers.serialize('json', records)
-    resp_data =[val.get("fields") for val in eval(json_data.replace("false","False"))]
-    return Response(resp_data)  
+    # resp_data =[val.get("fields") for val in eval(json_data.replace("false","False"))]
+    return Response(eval(json_data.replace("false","False")))  
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter("pk", type=str, location='query', required=True),
+        OpenApiParameter("jwt", type=str, location="query", description="Authentication token", required=True),
+    ],
+    summary="Update company data",
+    request=ReportSerializer,
+    examples=[
+        OpenApiExample(
+            "Update file data in the database",
+            summary="Update example",
+            value={
+                "file_name": "file-A", 
+                "type" : "New type",
+                "author": "New Author", 
+                "company": "Updated Company", 
+                "title": "New Report Title",
+                "created_date": "2024-10-08",
+                "next_asses_date": "2025-01-01",
+                "summary" : "New summary",
+                "flag" : True
+            },
+            response_only=False
+        )
+    ],
+    description='Update the company file data in the Company model',
+    responses={
+        status.HTTP_200_OK: {"description": "Successful update", "content": {"application/json": {}}},
+        status.HTTP_404_NOT_FOUND: {"description": "File not found", "content": {"application/json": {}}},
+    }
+)
+@api_view(['PATCH']) 
+def update_file_data(request):
+    token = request.GET.get("jwt")
+    if not token:
+        raise AuthenticationFailed("Unauthenticated!")
+
+    try:
+        payload = jwt.decode(token, key=os.getenv('jwt_secret'), algorithms=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed("Unauthenticated!")
+
+    pk = request.GET.get("pk")
+    if not pk:
+        return Response({"error": "pk is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        company_record = Company.objects.get(id=pk)
+    except Company.DoesNotExist:
+        return Response({"error": "File not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    data = request.data
+    fields_to_update = {}
+    if 'type' in data:
+        fields_to_update['type'] = data['type']
+    if 'title' in data:
+        fields_to_update['title'] = data['title']
+    if 'created_date' in data:
+        fields_to_update['created_date'] = data['created_date']
+    if 'next_asses_date' in data:
+        fields_to_update['next_asses_date'] = data['next_asses_date']
+    if 'company' in data:
+        fields_to_update['company'] = data['company']
+    if 'author' in data:
+        fields_to_update['author'] = data['author']
+    if 'summary' in data:
+        fields_to_update['summary'] = data['summary']
+    if 'flag' in data:
+        fields_to_update['flag'] = data['flag']
+
+    for field, value in fields_to_update.items():
+        setattr(company_record, field, value)
+    
+    company_record.save()
+
+    return Response({"message": "File updated successfully"}, status=status.HTTP_200_OK)
 
 class RegisterView(APIView):
     serializer_class = UserSerializer
@@ -209,9 +286,9 @@ class LoginView(APIView):
             raise AuthenticationFailed("User not found!")
         if not user.check_password(password):
             raise AuthenticationFailed("Incorrect Password")
-        time_now = datetime.datetime.now(datetime.timezone.utc)
+        time_now = datetime.now(timezone.utc)
         payload = {'id':user.id,
-                   'exp':time_now+datetime.timedelta(minutes=60),
+                   'exp':time_now+timedelta(minutes=60),
                     'iat':time_now
                    }
         token = jwt.encode(payload,key=os.getenv('jwt_secret'),algorithm='HS256')

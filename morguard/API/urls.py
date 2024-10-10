@@ -6,6 +6,7 @@ urlpatterns = [
     path('expand-folder/',views.expand_s3_folder,name='expand-drive'),
     path('process-files/', views.index_files, name='index-files'),
     path('get-files/', views.get_file_data, name='get-files'),
+    path('update_file',views.update_file_data, name='update-files'),
     path('register/',views.RegisterView.as_view(),name='register-user'),
     path('login/',views.LoginView.as_view(),name='login-user'),
     path('logout',views.LogoutView.as_view(),name='logout-user')

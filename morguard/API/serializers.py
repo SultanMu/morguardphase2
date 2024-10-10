@@ -22,3 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField()
     password = serializers.CharField()
+
+class ReportSerializer(serializers.Serializer):
+    file_name = serializers.CharField(max_length=255)
+    type = serializers.CharField(max_length=255)
+    author = serializers.CharField(max_length=255)
+    company = serializers.CharField(max_length=255)
+    title = serializers.CharField(max_length=255)
+    created_date = serializers.DateField(format="%Y-%m-%d")
+    next_asses_date = serializers.DateField(format="%Y-%m-%d")
+    summary = serializers.CharField(max_length=1000)
+    flag = serializers.BooleanField()

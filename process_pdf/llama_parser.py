@@ -2,8 +2,7 @@ import os
 import nest_asyncio
 nest_asyncio.apply()
 from llama_parse import LlamaParse
-from llama_index.legacy.vector_stores.postgres import PGVectorStore
-from llama_index.core import  ServiceContext,StorageContext,VectorStoreIndex
+from llama_index.core import VectorStoreIndex
 from llama_index.core.node_parser import MarkdownElementNodeParser
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings
@@ -11,9 +10,6 @@ client_id = os.getenv("client_id")
 client_secret = os.getenv("client_secret")
 tenant_id = os.getenv("tenant_id")
 from llama_index.llms.openai import OpenAI
-
-from dotenv import load_dotenv
-load_dotenv()
 class FileParser:
     def __init__(self):
         EMBEDDING_MODEL  = "text-embedding-3-small"
@@ -22,8 +18,8 @@ class FileParser:
         embed_model = OpenAIEmbedding(model=EMBEDDING_MODEL)
         Settings.llm = self.llm
         Settings.embed_model = embed_model
-    def retrieve(self,parsing_instructions:str,query:str,file):
-        pdf_file_path = 'output_file.pdf'
+    def retrieve(self,parsing_instructions:str,query:str,file,url:str):
+        pdf_file_path = url+'_output_file.pdf'
         with open(pdf_file_path, 'wb') as pdf_file:
             pdf_file.write(file.getvalue())
         documents = LlamaParse(result_type="markdown", parsing_instructions=parsing_instructions).load_data([pdf_file_path])

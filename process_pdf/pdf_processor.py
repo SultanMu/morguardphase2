@@ -18,7 +18,7 @@ async def process_pdf(request:Request):
             async with session.get(url) as response:
                     response.raise_for_status()
                     content = await response.read()
-        response = FileParser().retrieve(parsing_instructions=parsing_instructions,query=query,file=BytesIO(content))
+        response = FileParser().retrieve(parsing_instructions=parsing_instructions,query=query,file=BytesIO(content),url=url)
         return {"fields":json.loads(str(response))}
     except Exception as e:
         print(e)
