@@ -152,7 +152,8 @@ async def index_files(request):
 
     
 @extend_schema(
-    parameters=[OpenApiParameter("file_name",type=str,location='query',required=True),
+    parameters=[OpenApiParameter("days",type=str,location='query',required=True),
+                OpenApiParameter("flag",type=str,location='query'),
                 OpenApiParameter(
             "jwt",  # Optional cookie parameter
             type=str,
@@ -170,6 +171,8 @@ async def index_files(request):
 @api_view(['GET'])
 def get_file_data(request):
     token = request.GET.get("jwt")
+    days = int(request.GET.get("days"))
+    flag = request.GET.get("flag")
     if not token:
         raise AuthenticationFailed("Unauthenticated!")
     try:
@@ -177,11 +180,14 @@ def get_file_data(request):
 
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed("Unauthenticated!")
-    one_month_ago = datetime.now() - timedelta(days=30)
-    records = Company.objects.filter(date_processed__gte=one_month_ago)
+    one_month_ago = datetime.now() - timedelta(days=days)
+    if flag:
+        records = Company.objects.filter(date_processed__gte=one_month_ago,flag=flag)
+    else:
+        records = Company.objects.filter(date_processed__gte=one_month_ago)
     json_data = serializers.serialize('json', records)
     # resp_data =[val.get("fields") for val in eval(json_data.replace("false","False"))]
-    return Response(eval(json_data.replace("false","False")))  
+    return Response(eval(json_data.replace("false","False").replace("true","True")))  
 
 @extend_schema(
     parameters=[
