@@ -19,7 +19,7 @@ services:
     ports:
       - 9990:8000
     env_file:
-      - ./morguard/.env
+      - ./.env
     depends_on:
         - mguard-db-service-phase-2
     networks:
@@ -43,9 +43,20 @@ services:
     container_name: "mguard-file-processor-phase-2"
     hostname: mguard-phase-2
     env_file:
-      - ./morguard/.env
+      - ./.env
     depends_on:
       - backend-service-phase-2
+    networks:
+      - mguard_internal_net-phase-2
+  mguard-s3-watch:
+    build: 
+      context: s3_watch/
+    container_name: "mguard-s3-watch"
+    hostname: mguard-phase-2
+    env_file:
+      - ./.env
+    depends_on:
+      - mguard-file-processor-phase-2
     networks:
       - mguard_internal_net-phase-2
 networks:

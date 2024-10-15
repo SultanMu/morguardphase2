@@ -85,7 +85,7 @@ def expand_s3_folder(request):
         try:
             folder_name=request.GET.get("folder_name")
             bucket_name=request.GET.get("bucket_name")
-            files = s3.expand_s3_folder(bucket_name,folder_name)
+            files,date_mod = s3.expand_s3_folder(bucket_name,folder_name)
             return Response(data={"files":files},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"exception":str(e)},status.HTTP_404_NOT_FOUND)

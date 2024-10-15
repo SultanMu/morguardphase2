@@ -5,6 +5,7 @@ import urllib.parse
 from fastapi import FastAPI, Request
 from llama_parser import FileParser
 from parsing_instructions import parsing_instructions,query
+from fastapi.responses import JSONResponse
 app = FastAPI()
 
 
@@ -24,6 +25,9 @@ async def process_pdf(request:Request):
         print(e)
         return {"exception":e}
 
+@app.get("/health")
+async def health_check():
+    return JSONResponse(status_code=200, content={"status": "ok"})
     
 
 
