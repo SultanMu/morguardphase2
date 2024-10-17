@@ -5,6 +5,7 @@ urlpatterns = [
     path('list-folders/',views.list_s3_folders,name='list-drive'), # should check if a file_name is in our database before processing it, only read the file names which are new
     path('expand-folder/',views.expand_s3_folder,name='expand-drive'),
     path('process-files/', views.index_files, name='index-files'),
+    path('download-file/',views.download_file,name='download-file'),
     path('get-files/', views.get_file_data, name='get-files'),
     path('update_file',views.update_file_data, name='update-files'),
     path('register/',views.RegisterView.as_view(),name='register-user'),

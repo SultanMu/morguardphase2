@@ -1,6 +1,15 @@
 import psycopg2
 from datetime import datetime
-
+import sys
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout)  # Logs will also be output to console
+    ]
+)
+logger = logging.getLogger(__name__)
 class CompanyDatabaseHandler:
     def __init__(self, host, port, database, user, password):
         self.host = host
@@ -20,7 +29,7 @@ class CompanyDatabaseHandler:
                 password=self.password
             )
         except Exception as e:
-            print(f"Error connecting to the database: {e}")
+            logger.error(f"Error connecting to the database: {e}")
             raise
 
     def close_connection(self):
@@ -57,9 +66,10 @@ class CompanyDatabaseHandler:
                     cursor.execute(insert_query, values)
           
                 self.connection.commit()
+                logger.info(f"Insertion Successful")
 
         except Exception as e:
-            print(f"An error occurred during the insert operation: {e}")
+            logger.error(f"An error occurred during the insert operation: {e}")
             if self.connection:
                 self.connection.rollback()  
             raise
