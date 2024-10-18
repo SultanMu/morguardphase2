@@ -85,7 +85,7 @@ def expand_s3_folder(request):
         try:
             folder_name=request.GET.get("folder_name")
             bucket_name=request.GET.get("bucket_name")
-            files = s3.expand_s3_folder(bucket_name,folder_name)
+            files,date_mod = s3.expand_s3_folder(bucket_name,folder_name)
             return Response(data={"files":files},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"exception":str(e)},status.HTTP_404_NOT_FOUND)
@@ -152,7 +152,8 @@ async def index_files(request):
 
     
 @extend_schema(
-    parameters=[OpenApiParameter("file_name",type=str,location='query',required=True),
+    parameters=[OpenApiParameter("days",type=str,location='query',required=True),
+                OpenApiParameter("flag",type=str,location='query'),
                 OpenApiParameter(
             "jwt",  # Optional cookie parameter
             type=str,
@@ -170,6 +171,8 @@ async def index_files(request):
 @api_view(['GET'])
 def get_file_data(request):
     token = request.GET.get("jwt")
+    days = int(request.GET.get("days"))
+    flag = request.GET.get("flag")
     if not token:
         raise AuthenticationFailed("Unauthenticated!")
     try:
@@ -177,11 +180,14 @@ def get_file_data(request):
 
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed("Unauthenticated!")
-    one_month_ago = datetime.now() - timedelta(days=30)
-    records = Company.objects.filter(date_processed__gte=one_month_ago)
+    one_month_ago = datetime.now() - timedelta(days=days)
+    if flag:
+        records = Company.objects.filter(date_processed__gte=one_month_ago,flag=flag)
+    else:
+        records = Company.objects.filter(date_processed__gte=one_month_ago)
     json_data = serializers.serialize('json', records)
     # resp_data =[val.get("fields") for val in eval(json_data.replace("false","False"))]
-    return Response(eval(json_data.replace("false","False")))  
+    return Response(eval(json_data.replace("false","False").replace("true","True")))  
 
 @extend_schema(
     parameters=[
@@ -259,6 +265,45 @@ def update_file_data(request):
     company_record.save()
 
     return Response({"message": "File updated successfully"}, status=status.HTTP_200_OK)
+
+@extend_schema(
+    parameters=[OpenApiParameter("file_name",type=str,location='query',required=True),
+                OpenApiParameter("bucket_name",type=str,location='query',required=True),
+                OpenApiParameter(
+            "jwt", 
+            type=str,
+            location="query",
+            description="cookie for authentication",
+            required=True
+        )],
+    summary="download file",
+    examples=[OpenApiExample("download file from s3",summary="Json response",value={"file_name":"base64"},response_only=True)],
+    description='get the file data',
+    responses={
+        status.HTTP_200_OK: {"description": "Successful response", "content": {"application/json": {}}},
+        status.HTTP_404_NOT_FOUND: {"description": "File does not exist", "content": {"application/json": {}}},
+    })
+@api_view(['GET'])
+def download_file(request):
+    token = request.GET.get("jwt")
+    bucket_name = request.GET.get("bucket_name")
+    file_name = request.GET.get("file_name")
+    if not token:
+        raise AuthenticationFailed("Unauthenticated!")
+    try:
+        try:
+            payload = jwt.decode(token, key=os.getenv('jwt_secret'), algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated!")
+        base_encoded = s3.download_n_encode(bucket_name,file_name)
+        if base_encoded:
+            return Response({"file_base64": base_encoded}, status=status.HTTP_200_OK)
+        else:
+            return Response({"exception": "file not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"exception": e}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class RegisterView(APIView):
     serializer_class = UserSerializer

@@ -1,6 +1,5 @@
 import boto3
 import os
-import base64
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.getenv("AWS_REGION")
@@ -40,29 +39,6 @@ def download_file(bucket_name, s3_key, local_path):
         print(f"File {s3_key} downloaded to {local_path}")
     except Exception as e:
         print("Error downloading file:", e)
-
-def download_n_encode(bucket_name, file_name):
-    try:
-        paginator = s3.get_paginator("list_objects_v2")
-        pages = paginator.paginate(Bucket=bucket_name)
-        
-        for page in pages:
-            for content in page.get('Contents', []):
-                key = content.get("Key")
-                if key.endswith(file_name):  
-                    print(f"File found: {key}")
-                    
-                    s3_object = s3.get_object(Bucket=bucket_name, Key=key)
-                    file_data = s3_object['Body'].read()
-                    
-                    encoded_file = base64.b64encode(file_data).decode('utf-8')
-                    return encoded_file
-        
-        print(f"File '{file_name}' not found in the bucket.")
-        return None
-    except Exception as e:
-        print("Error finding, downloading, or encoding file in S3:", e)
-        return None
 
 def expand_s3_folder(bucket_name,folder_name):
     files = []

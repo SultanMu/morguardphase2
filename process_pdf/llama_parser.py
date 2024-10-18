@@ -19,7 +19,7 @@ class FileParser:
         Settings.llm = self.llm
         Settings.embed_model = embed_model
     def retrieve(self,parsing_instructions:str,query:str,file,url:str):
-        pdf_file_path = url+'_output_file.pdf'
+        pdf_file_path = url[-10:]+'output_file.pdf'
         with open(pdf_file_path, 'wb') as pdf_file:
             pdf_file.write(file.getvalue())
         documents = LlamaParse(result_type="markdown", parsing_instructions=parsing_instructions).load_data([pdf_file_path])
