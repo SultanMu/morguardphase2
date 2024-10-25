@@ -48,8 +48,9 @@ def expand_s3_folder(bucket_name,folder_name):
         for content in responses.get('Contents', []):
             if content.get("Key").__contains__(folder_name):
                 file = content.get("Key").split("/")[-1]
-                files.append(file)
-                date_mod.append(content.get('LastModified'))
+                if file.endswith(".pdf") or file.endswith(".docx"):
+                    files.append(file)
+                    date_mod.append(content.get('LastModified'))
         return files,date_mod
     except Exception as e:
         print("Error listing files in bucket:", e)

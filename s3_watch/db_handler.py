@@ -41,12 +41,14 @@ class CompanyDatabaseHandler:
         """Insert multiple records into the API_company table."""
         try:
             if self.connection is None:
+                logger.info("Establishing connection")
                 self.connect()
-
+            else:
+                logger.info("Connected")
             with self.connection.cursor() as cursor:
                 for data in files_data:
                     insert_query = """
-                        INSERT INTO API_company 
+                        INSERT INTO "API_company" 
                         (type, title, created_date, next_asses_date, company, author, summary, file_name, flag, date_processed)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """

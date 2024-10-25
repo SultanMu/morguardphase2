@@ -17,36 +17,36 @@ class S3BucketPoller:
         self.bucket_name = bucket_name
         self.polling_interval = polling_interval
         self.last_seen_files = {}
-        self.db_conn = CompanyDatabaseHandler(getenv('host'),getenv('name'),getenv('user'),getenv('password'),getenv('port'))
+        self.db_conn = CompanyDatabaseHandler(host=getenv('host'),database=getenv('name'),user=getenv('user'),password=getenv('password'),port=getenv('port'))
     async def index_file(self, url: str, file_name: str, folder_name: str, max_retries: int = 5, retry_interval: int = 10):
         attempt = 0
         while attempt < max_retries:
             try:
                 async with aiohttp.ClientSession() as session:
-                    async with session.post("http://mguard-file-processor-phase-2:8000/process/", data={"content": url}) as response:
+                    async with session.post("http://mguard-file-processor-phase-2/process/", data={"content": url}) as response:
                         response.raise_for_status()  
                         texts = await response.json()
                         text_data = texts.get("fields", [])
 
-                        if text_data:
-                            return {"fields": text_data}
-                        else:
-                            return {"exception": "Failed to process", "file_name": file_name}
-                    text_data["Report Type"] = folder_name
-                    pattern =  r'\b\w+\d\w* -| - [A-Za-z]+ \d{1,2}, \d{4}|\.pdf|\.docx'
-                    
-                    if text_data.get("Company") == "Not Available":
-                        text_data["Company"] = re.sub(pattern, '', file_name)
-                    
-                    if text_data.get("Report Title") == "Not Available":
-                        text_data["Report Title"] = re.sub(pattern, '', file_name)
+                    if text_data:
+                        text_data["Report Type"] = folder_name
+                        # pattern =  r'\b\w+\d\w* -| - [A-Za-z]+ \d{1,2}, \d{4}|\.pdf|\.docx'
+                        
+                        # if text_data.get("Company") == "Not Available":
+                        #     text_data["Company"] = re.sub(pattern, '', file_name)
+                        
+                        # if text_data.get("Report Title") == "Not Available":
+                        #     text_data["Report Title"] = re.sub(pattern, '', file_name)
 
-                    
-                    return {file_name:text_data}
+                        
+                        return {file_name:text_data}
+                    else:
+                        return {"exception": "Failed to process", "file_name": file_name}
+
 
             except aiohttp.ClientError as e:
                 attempt += 1
-                print(f"Attempt {attempt} failed: {e}. Retrying in {retry_interval} seconds...")
+                logger.info(f"Attempt {attempt} failed: {e}. Retrying in {retry_interval} seconds...")
 
                 if attempt < max_retries:
                     await asyncio.sleep(retry_interval)  # Wait before retrying
@@ -98,12 +98,15 @@ class S3BucketPoller:
     async def call_index_function(self, files,folder_map:dict):
         """Call the index_file function for each new or modified file."""
         file_info_data = []
-        for file_name in files:
+        for file_name in files[:3]:
             folder_name = folder_map.get(file_name)
             file_url = s3.get_s3_file_url(self.bucket_name,folder_name,file_name)
             result = await self.index_file(file_url, file_name, folder_name)
-            file_info_data.append(result)
-            logger.info(f"Indexed data result: {result}")
+            if result.get("exception",None):
+                logger.log(msg=str(result))
+            else:
+                file_info_data.append(result)
+
         files_data = [
             {
                 'type': file_info_dict.get('Report Type'),  # No quotes around the key name
@@ -118,12 +121,12 @@ class S3BucketPoller:
             }
             for file_data in file_info_data for file_name, file_info_dict in file_data.items()
         ]
-        
+        logger.info("Inserting data...")
         self.db_conn.insert_data(files_data=files_data)
         logger.info("Files inserted "+"{}".format(files))
     async def poll(self):
         """Poll the S3 bucket for changes in a loop."""
-        logger.info(f"Starting to poll S3 bucket {self.bucket_name} every {self.polling_interval} seconds.")
+        logger.info(f"Starting to poll S3 bucket {self.bucket_name} every {self.polling_interval} hours.")
         while True:
             current_files,folder_map = self.list_files()
             new_files, modified_files = self.detect_changes(current_files)
@@ -135,7 +138,7 @@ class S3BucketPoller:
 
             self.last_seen_files = current_files
 
-            time.sleep(self.polling_interval)
+            time.sleep(self.polling_interval*60*60)
 
 S3_BUCKET_NAME = getenv("BUCKET_NAME")
 
