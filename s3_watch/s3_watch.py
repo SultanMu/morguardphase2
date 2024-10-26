@@ -5,6 +5,8 @@ from db_handler import CompanyDatabaseHandler
 import aiohttp
 import argparse
 import asyncio
+import datetime
+from dateutil.relativedelta import relativedelta
 import re
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -23,20 +25,34 @@ class S3BucketPoller:
         while attempt < max_retries:
             try:
                 async with aiohttp.ClientSession() as session:
-                    async with session.post("http://mguard-file-processor-phase-2/process/", data={"content": url}) as response:
+                    async with session.post("http://mguard-file-processor-phase-2:8800/process/", data={"content": url}) as response:
                         response.raise_for_status()  
                         texts = await response.json()
                         text_data = texts.get("fields", [])
 
                     if text_data:
-                        text_data["Report Type"] = folder_name
-                        # pattern =  r'\b\w+\d\w* -| - [A-Za-z]+ \d{1,2}, \d{4}|\.pdf|\.docx'
+                        pattern =  r'\b\w+\d\w* -| - [A-Za-z]+ \d{1,2}, \d{4}|\.pdf|\.docx'
+                        date_pattern = r"(\bJan|\bFeb|\bMar|\bApr|\bMay|\bJun|\bJul|\bAug|\bSep|\bOct|\bNov|\bDec) (\d{1,2}) (\d{4})"
+                        if text_data.get("Date Created") == "Not Available":
+                            date_match = re.search(date_pattern,file_name)
+                            if date_match:
+                                month = date_match.group(1)
+                                day = date_match.group(2)
+                                year = date_match.group(3)
+                                date_obj = datetime.strptime(f"{day} {month} {year}", "%d %b %Y")
+                                formatted_date = date_obj.strftime("%d-%m-%Y")
+                                text_data["Date Created"] = formatted_date
+                                if text_data.get("Next Assessment Date") == "Not Available":
+                                    next_data = date_obj + relativedelta(months=3)
+                                    next_asses_date = next_data.strftime("%d-%m-%Y")
+                                    text_data["Next Assessment Date"] = next_asses_date
+                            else:
+                                text_data["Date Created"] = "Not Available"
+                        if text_data.get("Company") == "Not Available":
+                            text_data["Company"] = re.sub(pattern, '', file_name)
                         
-                        # if text_data.get("Company") == "Not Available":
-                        #     text_data["Company"] = re.sub(pattern, '', file_name)
-                        
-                        # if text_data.get("Report Title") == "Not Available":
-                        #     text_data["Report Title"] = re.sub(pattern, '', file_name)
+                        if text_data.get("Report Title") == "Not Available":
+                            text_data["Report Title"] = re.sub(pattern, '', file_name)
 
                         
                         return {file_name:text_data}
@@ -98,12 +114,13 @@ class S3BucketPoller:
     async def call_index_function(self, files,folder_map:dict):
         """Call the index_file function for each new or modified file."""
         file_info_data = []
-        for file_name in files[:3]:
+        for file_name in files:
             folder_name = folder_map.get(file_name)
             file_url = s3.get_s3_file_url(self.bucket_name,folder_name,file_name)
             result = await self.index_file(file_url, file_name, folder_name)
             if result.get("exception",None):
-                logger.log(msg=str(result))
+                logger.info(f"{str(result)}")
+
             else:
                 file_info_data.append(result)
 

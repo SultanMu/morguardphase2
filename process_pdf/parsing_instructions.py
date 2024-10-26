@@ -7,6 +7,9 @@ The output must be structured in a valid and machine-readable format, ensuring c
 query="""
 Extract the following information from the document and return the result in valid JSON format:
 
+Report Type:
+
+Identify the "Report Type" of the from this document, identifying any label or phrase that specifies the nature of the report.
 Report Title:
 
 Identify the "Report Title" of the document. If a title is not found, use the file name. If neither is available, return "Not Available."
